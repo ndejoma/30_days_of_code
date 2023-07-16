@@ -39,7 +39,6 @@ If n is even and greater than 20 , print "Not Weird"
 // }
 
 //working solution
-
 func main() {
 	var n int
 	fmt.Print("Enter a number: ")
