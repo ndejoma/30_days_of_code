@@ -75,9 +75,8 @@ import (
 func main() {
     reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
 
-    nTemp, err := strconv.ParseInt(strings.TrimSpace(readLine(reader)), 10, 64)
+    n, err := strconv.ParseInt(strings.TrimSpace(readLine(reader)), 10, 64)
     checkError(err)
-    n := int32(nTemp)
     binaryStr, err := decimalToBinary(n)
     if err != nil {
         fmt.Println(err)
@@ -90,7 +89,7 @@ func printMaxConsecutiveOnes(binaryStr string) {
     currMax := 0
     for i := 0; i < len(binaryStr); i++ {
         if string(binaryStr[i]) == "0" {
-            //we have finished counting  the 1'S
+            //we have finished counting  the 1'S so reset the count of the consecutive 1s
             currMax = 0
         } else {
             currMax++
@@ -102,20 +101,20 @@ func printMaxConsecutiveOnes(binaryStr string) {
     fmt.Println(max)
 }
 
-func decimalToBinary(no int32) (string, error) {
-    if no < 0 {
-        return "", errors.New("input number must be a positive integer")
-    }
-    const divisor int32 = 2
-    dividend := no
-    var binaryStr string
-    for dividend > 0 {
-        quotient := dividend / divisor
-        remainder := dividend % divisor
-        binaryStr = strconv.Itoa(int(remainder)) + binaryStr
-        dividend = quotient
-    }
-		return binaryStr, nil
+func decimalToBinary(no int) (string, error) {
+	if no <= 0 {
+			return "", errors.New("input number must be a positive integer")
+	}
+	const divisor = 2
+	dividend := no
+	var binaryStr string
+	for dividend > 0 {
+			quotient := dividend / divisor
+			remainder := dividend % divisor
+			binaryStr = strconv.Itoa(remainder) + binaryStr
+			dividend = quotient
+	}
+	return binaryStr, nil
 }
 func readLine(reader *bufio.Reader) string {
     str, _, err := reader.ReadLine()
